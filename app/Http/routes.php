@@ -32,6 +32,20 @@ Route::group([
     Route::match(['get', 'post'],'/uploadImg', 'CommonUploadImg@index');
 });
 
+
+//文章模块
+Route::group([
+    'prefix' => 'tour/article',
+    'namespace' => 'TourArticle',
+], function () {
+    //文章列表
+    Route::match(['get', 'post'],'/list', 'TourArticleList@index');
+});
+
+
+
+
+
 //基础模块
 Route::group([
     'prefix' => 'home',
