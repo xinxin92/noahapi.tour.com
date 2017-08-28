@@ -16,7 +16,7 @@ class TourArticleList extends TourArticleBase
         $lists = (new TourArticle())->getList(['fields'=>$fields,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
         //封面
         foreach ($lists as &$list) {
-            $list['pic_url_show'] = config('upload.fileHost').$list['pic_url'];
+            $list['pic_url'] = config('upload.fileHost').$list['pic_url'];
         }
         $data = ['lists' => $lists];
         return $data;
