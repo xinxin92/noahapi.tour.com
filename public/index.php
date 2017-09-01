@@ -1,5 +1,17 @@
 <?php
 
+//支持跨域
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+header('Access-Control-Allow-Credentials:true');
+$allow_origin = array(
+    'http://m.travel.com:8000',
+    'http://47.93.224.33:8000',
+    'http://47.93.224.33:3000',
+);
+if(in_array($origin, $allow_origin)){
+    header('Access-Control-Allow-Origin:'.$origin);
+}
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

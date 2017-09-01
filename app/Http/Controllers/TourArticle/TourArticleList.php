@@ -12,13 +12,13 @@ class TourArticleList extends TourArticleBase
         //获取基本信息
         $pageMsg = Common::getPageMsg($this->request, 10);
         $attach = $this->attachParams($this->request);
-        $fields = ['id','title','introduction','pic_url','start_time','end_time'];
+        $fields = ['id','title','introduction','pic_url','price','start_time','end_time'];
         $lists = (new TourArticle())->getList(['fields'=>$fields,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
         //封面
         foreach ($lists as &$list) {
             $list['pic_url'] = config('upload.fileHost').$list['pic_url'];
         }
-        $data = ['lists' => $lists];
+        $data = ['code'=>0,'msg'=>'成功','lists' => $lists];
         return $data;
     }
 
