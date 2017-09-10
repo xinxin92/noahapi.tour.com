@@ -7,6 +7,7 @@ Route::group([
     Route::match(['get', 'post'],'/', 'HomeMenu@index');
 });
 
+
 //测试
 Route::group([
     'prefix' => 'test',
@@ -23,6 +24,7 @@ Route::group([
 //    Route::match(['get','post'],'/db', 'TestDb@index');
 });
 
+
 //公共方法
 Route::group([
     'prefix' => 'common',
@@ -33,6 +35,7 @@ Route::group([
 });
 
 
+//API接口：
 //文章模块
 Route::group([
     'prefix' => 'tour/article',
@@ -41,6 +44,18 @@ Route::group([
     //文章列表
     Route::match(['get', 'post'],'/list', 'TourArticleList@index');
 });
+
+
+//OP接口：
+//文章模块
+Route::group([
+    'prefix' => 'op/article',
+    'namespace' => 'OpArticle',
+], function () {
+    //文章列表
+    Route::match(['get', 'post'],'/list', 'OpArticleList@index');
+});
+
 
 
 
