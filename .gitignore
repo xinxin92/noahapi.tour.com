@@ -4,3 +4,8 @@
 Homestead.yaml
 Homestead.json
 .env
+/storage/
+.idea/*
+.idea/workspace.xml
+.gitignore
+
