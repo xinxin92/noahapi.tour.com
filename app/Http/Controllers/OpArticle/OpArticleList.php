@@ -11,7 +11,7 @@ class OpArticleList extends OpArticleBase
     public function index()
     {
         //获取基本信息
-        $pageMsg = Common::getPageMsg($this->request, 50);
+        $pageMsg = Common::getPageMsg($this->request, 20);
         $attach = $this->attachParams($this->request);
         $fields = [
             'tour_article.id',
@@ -26,7 +26,9 @@ class OpArticleList extends OpArticleBase
         $joins = [
             'tour_leader' => [['tour_article.leader_id','=','tour_leader.id']],
         ];
-        $lists = (new TourArticle())->getList(['fields'=>$fields,'joins'=>$joins,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
+        $TourArticleMod = new TourArticle();
+        $lists = $TourArticleMod->getList(['fields'=>$fields,'joins'=>$joins,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
+        $count = $TourArticleMod->countBy(['fields'=>$fields,'joins'=>$joins,'where'=>$attach['where']]);
         //封面
         foreach ($lists as &$list) {
             if ($list['join_num'] < $list['least_num']) {
@@ -37,7 +39,7 @@ class OpArticleList extends OpArticleBase
                 $list['join_status'] = '报名停止';
             }
         }
-        $data = ['code'=>0,'msg'=>'成功','lists' => $lists];
+        $data = ['code'=>0,'msg'=>'成功','count'=>$count,'lists' => $lists];
         return $data;
     }
 
