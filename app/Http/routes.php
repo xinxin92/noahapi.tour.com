@@ -53,6 +53,8 @@ Route::group([
 ], function () {
     //文章列表
     Route::match(['get', 'post'],'/list', 'OpArticleList@index');
+    //文章查看
+    Route::match(['get', 'post'],'/data', 'OpArticleData@index');
 });
 
 
