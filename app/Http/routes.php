@@ -25,16 +25,6 @@ Route::group([
 });
 
 
-//公共方法
-Route::group([
-    'prefix' => 'common',
-    'namespace' => 'Common',
-], function () {
-    //上传文件
-    Route::match(['get', 'post'],'/uploadImg', 'CommonUploadImg@index');
-});
-
-
 //API接口：
 //文章模块
 Route::group([
@@ -47,6 +37,15 @@ Route::group([
 
 
 //OP接口：
+//公共方法
+Route::group([
+    'prefix' => 'op/common',
+    'namespace' => 'OpCommon',
+], function () {
+    //上传图片
+    Route::match(['get', 'post'],'/uploadImg', 'OpCommonUploadImg@index');
+});
+
 //文章模块
 Route::group([
     'prefix' => 'op/article',
@@ -59,8 +58,14 @@ Route::group([
 
 
 
-
-
+//公共方法
+Route::group([
+    'prefix' => 'common',
+    'namespace' => 'Common',
+], function () {
+    //上传文件
+    Route::match(['get', 'post'],'/uploadImg', 'CommonUploadImg@index');
+});
 //基础模块
 Route::group([
     'prefix' => 'home',
@@ -71,7 +76,6 @@ Route::group([
     //登录用户的信息
     Route::match(['get', 'post'],'/master', 'HomeMaster@index');
 });
-
 //文章模块
 Route::group([
     'prefix' => 'article',
