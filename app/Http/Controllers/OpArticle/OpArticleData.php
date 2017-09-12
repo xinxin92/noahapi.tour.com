@@ -2,6 +2,7 @@
 //文章-查看
 namespace App\Http\Controllers\OpArticle;
 
+use App\Library\File;
 use App\Models\TourArticle\TourArticle;
 use App\Models\TourArticle\TourArticlePic;
 use App\Models\TourArticle\TourArticleSchedule;
@@ -22,7 +23,7 @@ class OpArticleData extends OpArticleBase
         if (!$article) {
             return ['code'=>-2,'msg'=>'没有查询到该文章或者该文章已经被删除'];
         }
-        $article['pic_url'] = config('upload.fileHost').$article['pic_url'];
+        $article['pic_url'] = File::addImgHost($article['pic_url']);
         //领队信息
         $TourLeaderMod = new TourLeader();
         $leader = $TourLeaderMod->getOne(['fields'=>['name as leader_name'],'where'=>['id'=>$article['leader_id'],'status'=>1]]);
@@ -35,7 +36,7 @@ class OpArticleData extends OpArticleBase
         $TourArticlePicMod = new TourArticlePic();
         $pics = $TourArticlePicMod->getList(['fields'=>['id','pic_url'],'where'=>['master_id'=>$id,'status'=>1]]);
         foreach ($pics as &$pic) {
-            $pic['pic_url'] = config('upload.fileHost').$pic['pic_url'];
+            $pic['pic_url'] = File::addImgHost($pic['pic_url']);
         }
         $article['pics'] = $pics;
 

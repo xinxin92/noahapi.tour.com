@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\TourArticle;
 
 use App\Library\Common;
+use App\Library\File;
 use App\Models\TourArticle\TourArticle;
 
 class TourArticleList extends TourArticleBase
@@ -16,7 +17,7 @@ class TourArticleList extends TourArticleBase
         $lists = (new TourArticle())->getList(['fields'=>$fields,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
         //封面
         foreach ($lists as &$list) {
-            $list['pic_url'] = config('upload.fileHost').$list['pic_url'];
+            $list['pic_url'] = File::addImgHost($list['pic_url']);
         }
         $data = ['code'=>0,'msg'=>'成功','lists' => $lists];
         return $data;

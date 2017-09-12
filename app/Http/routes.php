@@ -55,6 +55,10 @@ Route::group([
     Route::match(['get', 'post'],'/list', 'OpArticleList@index');
     //文章查看
     Route::match(['get', 'post'],'/data', 'OpArticleData@index');
+    //文章新增
+    Route::match(['get', 'post'],'/add', 'OpArticleAdd@index');
+    //文章编辑
+    Route::match(['get', 'post'],'/edit', 'OpArticleEdit@index');
 });
 
 

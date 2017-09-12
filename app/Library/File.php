@@ -4,15 +4,27 @@ namespace App\Library;
 
 class File
 {
-    //将图片添加host或者去掉host（http://imgup.xin.com是图片服务器地址）
-    public static function getImgUrl ($file='',$host = '') {
+    //图片添加host
+    public static function addImgHost ($file='',$host = '') {
         if (!$file) {
             return '';
         }
-        if (preg_match('/^http.*?com/', $file)) {
-            $file = preg_replace('/^http.*?com/', $host, $file);
-        } else {
+        if (!$host) {
+            $host = config('upload.fileHost');
+        }
+        if (!preg_match('/^.*\/.*$/', $file)) {
             $file = $host.$file;
+        }
+        return $file;
+    }
+
+    //去除图片的host
+    public static function delImgHost ($file='') {
+        if (!$file) {
+            return '';
+        }
+        if (preg_match('/^.*\//', $file)) {
+            $file = preg_replace('/^.*\//','',$file);
         }
         return $file;
     }
@@ -70,7 +82,7 @@ class File
         $data = [
             'code' => 1,
             'msg' => '上传成功',
-            'file_src' => config('upload.fileHost').$new_name,
+            'file_src' => File::addImgHost($new_name),
             'file_name' => $new_name,
         ];
         return $data;
