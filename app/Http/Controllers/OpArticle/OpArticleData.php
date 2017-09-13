@@ -18,7 +18,7 @@ class OpArticleData extends OpArticleBase
 
         //文章信息
         $TourArticleMod = new TourArticle();
-        $fields = ['title','start_time','end_time','least_num','most_num','join_num','price','pic_url','leader_id','introduction','information'];
+        $fields = ['title','pic_url','start_time','end_time','least_num','most_num','join_num','leader_id','price','price_explain','notice','introduction','information'];
         $article = $TourArticleMod->getOne(['fields'=>$fields,'where'=>['id'=>$id,'status <>'=>-1]]);
         if (!$article) {
             return ['code'=>-2,'msg'=>'没有查询到该文章或者该文章已经被删除'];

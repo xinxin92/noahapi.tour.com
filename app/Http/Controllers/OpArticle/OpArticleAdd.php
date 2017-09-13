@@ -12,6 +12,16 @@ class OpArticleAdd extends OpArticleBase
 {
     public function index()
     {
+        //测试备用
+//        $this->request['schedules'] = [
+//            ['date'=>'2017-10-26','content'=>'自由活动'],
+//            ['date'=>'2017-10-27','content'=>'自由活动'],
+//        ];
+//        $this->request['pics'] = [
+//            ['pic_url'=>'bb45a84347f92a3a9378130011c28a27.jpg'],
+//            ['pic_url'=>'96748850eab968d089090e62304af8eb.jpg'],
+//        ];
+
         //参数校验及获取
         $this->request['time_request'] = date('Y-m-d H:i:s');
         $resDealParams = $this->dealParams($this->request);
@@ -33,9 +43,9 @@ class OpArticleAdd extends OpArticleBase
             //行程安排
             if ($schedules) {
                 foreach ($schedules as &$schedule) {
-                    $schedule['master_id'] = $id;
                     $schedule['date'] = trim($schedule['date']);
                     $schedule['content'] = trim($schedule['content']);
+                    $schedule['master_id'] = $id;
                     $schedule['created_at'] = $this->request['time_request'];
                     $schedule['updated_at'] = $this->request['time_request'];
                 }
@@ -44,8 +54,8 @@ class OpArticleAdd extends OpArticleBase
             //文章图片
             if ($pics) {
                 foreach ($pics as &$pic) {
-                    $pic['master_id'] = $id;
                     $pic['pic_url'] = File::delImgHost(trim($pic['pic_url']));
+                    $pic['master_id'] = $id;
                     $pic['created_at'] = $this->request['time_request'];
                     $pic['updated_at'] = $this->request['time_request'];
                 }
@@ -87,12 +97,6 @@ class OpArticleAdd extends OpArticleBase
         } else {
             return ['code'=>-1, 'msg'=>'请上传封面'];
         }
-        //价格
-        if (isset($request['price']) && $price = intval($request['price'])) {
-            $article['price'] = $price;
-        } else {
-            return ['code'=>-1, 'msg'=>'请输入活动价格'];
-        }
         //领队
         if (isset($request['leader_id']) && $leader_id = intval($request['leader_id'])) {
             $article['leader_id'] = $leader_id;
@@ -110,6 +114,24 @@ class OpArticleAdd extends OpArticleBase
             $article['most_num'] = $most_num;
         } else {
             return ['code'=>-1, 'msg'=>'请输入人数上线'];
+        }
+        //价格
+        if (isset($request['price']) && $price = intval($request['price'])) {
+            $article['price'] = $price;
+        } else {
+            return ['code'=>-1, 'msg'=>'请输入活动价格'];
+        }
+        //费用说明
+        if (isset($request['price_explain']) && $price_explain = trim($request['price_explain'])) {
+            $article['price_explain'] = $price_explain;
+        } else {
+            return ['code'=>-1, 'msg'=>'请输入费用说明'];
+        }
+        //报名须知
+        if (isset($request['notice']) && $notice = trim($request['notice'])) {
+            $article['notice'] = $notice;
+        } else {
+            return ['code'=>-1, 'msg'=>'请输入报名须知'];
         }
         //活动概述
         if (isset($request['introduction']) && $introduction = trim($request['introduction'])) {
