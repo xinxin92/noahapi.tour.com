@@ -8,6 +8,17 @@ Route::group([
 });
 
 
+//wiki
+Route::group([
+    'prefix' => 'wiki',
+    'namespace' => 'Wiki',
+//    'middleware' => ['checkLogin', 'recordLog'],
+], function () {
+    Route::match(['get', 'post'],'/', 'WikiList@index');
+    Route::match(['get', 'post'],'/data', 'WikiData@index');
+});
+
+
 //测试
 Route::group([
     'prefix' => 'test',
