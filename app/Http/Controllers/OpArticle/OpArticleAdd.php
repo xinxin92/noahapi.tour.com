@@ -145,11 +145,21 @@ class OpArticleAdd extends OpArticleBase
         } else {
             return ['code'=>-1, 'msg'=>'请输入基本信息'];
         }
+        //行程安排
+        if (isset($request['schedules']) && $request['schedules']) {
+            $schedules = $request['schedules'];
+        } else {
+            return ['code'=>-1, 'msg'=>'请新建行程安排'];
+        }
+        //宣传图片
+        if (isset($request['pics']) && $request['pics']) {
+            $pics = $request['pics'];
+        } else {
+            return ['code'=>-1, 'msg'=>'请新建宣传图片'];
+        }
+
         $article['created_at'] = $request['time_request'];
         $article['updated_at'] = $request['time_request'];
-
-        $schedules = isset($request['schedules']) ? $request['schedules'] : [];
-        $pics = isset($request['pics']) ? $request['pics'] : [];
 
         return ['code'=>1,'msg'=>'校验成功','article'=>$article,'schedules'=>$schedules,'pics'=>$pics];
     }

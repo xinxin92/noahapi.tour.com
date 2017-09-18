@@ -24,7 +24,7 @@
                             </tr>
                             <tr class="success">
                                 <th align="right" width="10%" class="text-center">请求参数:</th>
-                                <td width="90%"><textarea readonly="true" rows="5" name="request" class="form-control" >{{$data['request']}}</textarea></td>
+                                <td width="90%"><textarea readonly="true" rows="10" name="request" class="form-control" >{{$data['request']}}</textarea></td>
                             </tr>
                             <tr class="success">
                                 <th align="right" width="10%" class="text-center">返回结果:</th>
