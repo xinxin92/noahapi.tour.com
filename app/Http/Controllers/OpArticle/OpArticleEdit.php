@@ -37,7 +37,7 @@ class OpArticleEdit extends OpArticleBase
         $TourArticleMod = new TourArticle();
         $sourceArticle = $TourArticleMod->getOne(['fields'=>['id'],'where'=>['id'=>$id,'status <>'=>-1]]);
         if (!$sourceArticle) {
-            return ['code'=>-1, 'msg'=>'该活动不存在或者已经被删除'];
+            return ['code'=>-2, 'msg'=>'该活动不存在或者已经被删除'];
         }
 
         //开始修改
