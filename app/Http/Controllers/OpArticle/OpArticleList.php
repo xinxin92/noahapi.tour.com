@@ -29,7 +29,7 @@ class OpArticleList extends OpArticleBase
         ];
         $TourArticleMod = new TourArticle();
         $lists = $TourArticleMod->getList(['fields'=>$fields,'joins'=>$joins,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
-        $count = $TourArticleMod->countBy(['fields'=>$fields,'joins'=>$joins,'where'=>$attach['where']]);
+        $count = $TourArticleMod->countBy(['joins'=>$joins,'where'=>$attach['where']]);
         //封面
         foreach ($lists as &$list) {
             //报名状态

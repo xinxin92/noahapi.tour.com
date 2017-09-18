@@ -21,9 +21,9 @@ class OpLeaderList extends OpLeaderBase
             'tour_leader.times',
             'tour_leader.skill',
         ];
-        $TourArticleMod = new TourArticle();
-        $lists = $TourArticleMod->getList(['fields'=>$fields,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
-        $count = $TourArticleMod->countBy(['fields'=>$fields,'where'=>$attach['where']]);
+        $TourLeaderMod = new TourLeader();
+        $lists = $TourLeaderMod->getList(['fields'=>$fields,'where'=>$attach['where'],'orderBy'=>$attach['orderBy'],'skip'=>$pageMsg['skip'],'limit'=>$pageMsg['limit']]);
+        $count = $TourLeaderMod->countBy(['where'=>$attach['where']]);
         $data = ['code'=>0,'msg'=>'成功','count'=>$count,'lists' => $lists];
         return $data;
     }
@@ -34,41 +34,15 @@ class OpLeaderList extends OpLeaderBase
         $orderBy = [];
         //ID
         if (isset($request['id']) && $id = intval($request['id'])) {
-            $where['tour_article.id'] = $id;
+            $where['tour_leader.id'] = $id;
         }
-        //文章标题
-        if (isset($request['title']) && $title = trim($request['title'])) {
-            $where['tour_article.title like'] = $title;
+        //姓名
+        if (isset($request['name']) && $name = trim($request['name'])) {
+            $where['tour_leader.name like'] = $name;
         }
-        //开始时间
-        if (isset($request['start_time']) && $start_time = trim($request['start_time'])) {
-            $where['tour_article.start_time'] = $start_time;
-        }
-        //领队
-        if (isset($request['leader_name']) && $leader_name = trim($request['leader_name'])) {
-            $leader = (new TourLeader)->getOne(['fields'=>['id'],'where'=>['name'=>$leader_name]]);
-            if ($leader) {
-                $where['tour_article.leader_id'] = $leader['id'];
-            } else {
-                $where['tour_article.id'] = -1;
-            }
-        }
-        //报名状态
-        if (isset($request['join_status']) && in_array($join_status = intval($request['join_status']),[-1,1,2,3,4])) {
-            if ($join_status == -1) {  //已结束
-                $where['tour_article.start_time <='] = $request['time_now'];
-            } else {
-                $where['tour_article.start_time >'] = $request['time_now'];
-                if ($join_status == 1) {  //名额充足
-                    $where['raw'][] = 'tour_article.join_num < tour_article.least_num';
-                } else if ($join_status == 2) {  //火热报名中
-                    $where['raw'][] = 'tour_article.join_num >= tour_article.least_num and tour_article.join_num < (tour_article.most_num - 10)';
-                } else if ($join_status == 3) {  //名额紧缺
-                    $where['raw'][] = 'tour_article.join_num >= (tour_article.most_num - 10) and tour_article.join_num < tour_article.most_num';
-                } else if ($join_status == 4) {  //名额已满
-                    $where['raw'][] = 'tour_article.join_num >= tour_article.most_num';
-                }
-            }
+        //电话
+        if (isset($request['mobile']) && $mobile = trim($request['mobile'])) {
+            $where['tour_leader.mobile'] = $mobile;
         }
 
         $where['tour_leader.status'] = 1;
