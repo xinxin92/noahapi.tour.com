@@ -1,5 +1,5 @@
 <?php
-//文章-列表
+//领队-列表
 namespace App\Http\Controllers\OpLeader;
 
 use App\Library\Common;
