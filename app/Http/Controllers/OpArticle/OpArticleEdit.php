@@ -1,5 +1,5 @@
 <?php
-//文章-新增
+//文章-编辑
 namespace App\Http\Controllers\OpArticle;
 
 use App\Library\File;
@@ -8,7 +8,7 @@ use App\Models\TourArticle\TourArticlePic;
 use App\Models\TourArticle\TourArticleSchedule;
 use Illuminate\Support\Facades\DB;
 
-class OpArticleAdd extends OpArticleBase
+class OpArticleEdit extends OpArticleBase
 {
     public function index()
     {
@@ -28,18 +28,25 @@ class OpArticleAdd extends OpArticleBase
         if ($resDealParams['code'] < 0) {
             return $resDealParams;
         }
+        $id = $resDealParams['id'];
         $article = $resDealParams['article'];
         $schedules = $resDealParams['schedules'];
         $pics = $resDealParams['pics'];
 
-        //开始新增
+        //存在性校验
         $TourArticleMod = new TourArticle();
+        $sourceArticle = $TourArticleMod->getOne(['fields'=>['id'],'where'=>['id'=>$id,'status <>'=>-1]]);
+        if (!$sourceArticle) {
+            return ['code'=>-1, 'msg'=>'该活动不存在或者已经被删除'];
+        }
+
+        //开始修改
         $TourArticleScheduleMod = new TourArticleSchedule();
         $TourArticlePicMod = new TourArticlePic();
         DB::beginTransaction();
         try{
             //文章信息
-            $id = $TourArticleMod->insertGetId($article);
+            $TourArticleMod->updateBy($article,['id'=>$id]);
             //行程安排
             if ($schedules) {
                 foreach ($schedules as &$schedule) {
@@ -49,6 +56,7 @@ class OpArticleAdd extends OpArticleBase
                     $schedule['created_at'] = $this->request['time_request'];
                     $schedule['updated_at'] = $this->request['time_request'];
                 }
+                $TourArticleScheduleMod->updateBy(['status'=>-1],['master_id'=>$id]);
                 $TourArticleScheduleMod->insert($schedules);
             }
             //文章图片
@@ -59,6 +67,7 @@ class OpArticleAdd extends OpArticleBase
                     $pic['created_at'] = $this->request['time_request'];
                     $pic['updated_at'] = $this->request['time_request'];
                 }
+                $TourArticlePicMod->updateBy(['status'=>-1],['master_id'=>$id]);
                 $TourArticlePicMod->insert($pics);
             }
             DB::commit();
@@ -73,6 +82,10 @@ class OpArticleAdd extends OpArticleBase
 
     //筛选条件处理
     private function dealParams($request=[]){
+        //ID
+        if (!isset($request['id']) || !($id = intval($request['id']))) {
+            return ['code'=>-1, 'msg'=>'没有获取到活动ID'];
+        }
         //开始时间
         if (isset($request['start_time']) && $start_time = trim($request['start_time'])) {
             $article['start_time'] = $start_time;
@@ -158,10 +171,9 @@ class OpArticleAdd extends OpArticleBase
             return ['code'=>-1, 'msg'=>'请新建宣传图片'];
         }
 
-        $article['created_at'] = $request['time_request'];
         $article['updated_at'] = $request['time_request'];
 
-        return ['code'=>1,'msg'=>'校验成功','article'=>$article,'schedules'=>$schedules,'pics'=>$pics];
+        return ['code'=>1,'msg'=>'校验成功','id'=>$id,'article'=>$article,'schedules'=>$schedules,'pics'=>$pics];
     }
 
 }
