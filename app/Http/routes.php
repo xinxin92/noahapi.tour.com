@@ -72,6 +72,23 @@ Route::group([
     Route::match(['get', 'post'],'/edit', 'OpArticleEdit@index');
 });
 
+//领队模块
+Route::group([
+    'prefix' => 'op/leader',
+    'namespace' => 'OpLeader',
+], function () {
+    //领队ID+姓名数组
+    Route::match(['get', 'post'],'/group', 'OpLeaderGroup@index');
+    //领队列表
+    Route::match(['get', 'post'],'/list', 'OpLeaderList@index');
+    //领队查看
+    Route::match(['get', 'post'],'/data', 'OpLeaderData@index');
+    //领队新增
+    Route::match(['get', 'post'],'/add', 'OpLeaderAdd@index');
+    //领队编辑
+    Route::match(['get', 'post'],'/edit', 'OpLeaderEdit@index');
+});
+
 
 
 
