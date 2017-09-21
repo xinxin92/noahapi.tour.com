@@ -6,8 +6,8 @@ header('Access-Control-Allow-Credentials:true');
 $allow_origin = array(
     'http://m.travel.com:8000',
     'http://back.travel.com:8000',
-    'http://www.73bluetravel.com:3000',
-    'http://www.73bluetravel.com:3001'
+    'http://www.73bluetravel.com',
+    'http://www.73bluetravel.com:3001',
 );
 if(in_array($origin, $allow_origin)){
     header('Access-Control-Allow-Origin:'.$origin);
