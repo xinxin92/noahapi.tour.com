@@ -1,11 +1,11 @@
 <?php
-//领队-新增
+//领队-修改
 namespace App\Http\Controllers\OpLeader;
 
 use App\Library\File;
 use App\Models\TourLeader\TourLeader;
 
-class OpLeaderAdd extends OpLeaderBase
+class OpLeaderEdit extends OpLeaderBase
 {
     public function index()
     {
@@ -15,20 +15,31 @@ class OpLeaderAdd extends OpLeaderBase
         if ($resDealParams['code'] < 0) {
             return $resDealParams;
         }
+        $id = $resDealParams['id'];
         $leader = $resDealParams['leader'];
 
-        //开始新增
+        //存在性校验
         $TourLeaderMod = new TourLeader();
-        $res = $TourLeaderMod->insert($leader);
+        $sourceLeader = $TourLeaderMod->getOne(['fields'=>['id'],'where'=>['id'=>$id,'status'=>1]]);
+        if (!$sourceLeader) {
+            return ['code'=>-2, 'msg'=>'该领队不存在或者已经被删除'];
+        }
+
+        //开始修改
+        $res = $TourLeaderMod->updateBy($leader,['id'=>$id]);
         if ($res) {
             return ['code'=>0,'msg'=>'成功'];
         } else {
-            return ['code'=>-100,'msg'=>'新增意外失败，请重试'];
+            return ['code'=>-100,'msg'=>'修改意外失败，请重试'];
         }
     }
 
     //筛选条件处理
     private function dealParams($request=[]){
+        //ID
+        if (!isset($this->request['id']) || !($id = intval($this->request['id']))) {
+            return ['code'=>-1,'msg'=>'缺少领队id'];
+        }
         //姓名
         if (isset($request['name']) && $name = trim($request['name'])) {
             $leader['name'] = $name;
@@ -71,10 +82,9 @@ class OpLeaderAdd extends OpLeaderBase
         } else {
             return ['code'=>-1, 'msg'=>'请上传头像'];
         }
-        $leader['created_at'] = $request['time_request'];
         $leader['updated_at'] = $request['time_request'];
 
-        return ['code'=>1,'msg'=>'校验成功','leader'=>$leader];
+        return ['code'=>1,'msg'=>'校验成功','leader'=>$leader,'id'=>$id];
     }
 
 }

@@ -16,6 +16,7 @@ class OpLeaderList extends OpLeaderBase
         $fields = [
             'tour_leader.id',
             'tour_leader.name',
+            'tour_leader.gender',
             'tour_leader.mobile',
             'tour_leader.weixin',
             'tour_leader.times',
@@ -39,6 +40,10 @@ class OpLeaderList extends OpLeaderBase
         //姓名
         if (isset($request['name']) && $name = trim($request['name'])) {
             $where['tour_leader.name like'] = $name;
+        }
+        //性别
+        if (isset($request['gender']) && in_array($request['gender'],[1,2])) {
+            $where['tour_leader.gender'] = $request['gender'];
         }
         //电话
         if (isset($request['mobile']) && $mobile = trim($request['mobile'])) {
