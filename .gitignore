@@ -1,8 +1,9 @@
 /vendor
-/public/storage
-/public/upload
-/storage
-/node_modules
-/.idea
-/.gitignore
+/public/storage/
+/public/upload/
+/storage/
+.idea/
+.idea/workspace.xml
+.env
+.gitignore
 
