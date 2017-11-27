@@ -70,6 +70,8 @@ Route::group([
     Route::match(['get', 'post'],'/add', 'OpArticleAdd@index');
     //文章编辑
     Route::match(['get', 'post'],'/edit', 'OpArticleEdit@index');
+    //修改状态
+    Route::match(['get', 'post'],'/changeStatus', 'OpArticleChangeStatus@index');
 });
 
 //领队模块

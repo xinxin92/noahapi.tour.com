@@ -12,6 +12,7 @@ class BaseModel extends Model
 
     /**
      * 多表联立查询方法,参数params各元素含义
+     * @param：onWrite  连接主库
      * @param：fields   查询字段
      * @param：joins    表连接信息
      * @param：where    查询条件
@@ -25,15 +26,19 @@ class BaseModel extends Model
     //获取query（返回对象）
     public function getQuery($params = [])
     {
+        $onWrite = isset($params['onWrite']) ? $params['onWrite'] : false;
         $fields = isset($params['fields']) ? $params['fields'] : [];
         $joins = isset($params['joins']) ? $params['joins'] : [];
         $where = isset($params['where']) ? $params['where'] : [];
         $orderBy = isset($params['orderBy']) ? $params['orderBy'] : [];
         $groupBy = isset($params['groupBy']) ? $params['groupBy'] : [];
-        if($fields){
-            $query = $this->select($fields);
+        if ($onWrite) {
+            $query = $this::onWriteConnection();
         } else {
             $query = $this;
+        }
+        if($fields){
+            $query = $this->select($fields);
         }
         if ($joins) {
             $query = $this->createJoin($query, $joins);
