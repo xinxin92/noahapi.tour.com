@@ -1,12 +1,8 @@
 /vendor
-/node_modules
 /public/storage
 /public/upload
-Homestead.yaml
-Homestead.json
-.env
-/storage/
-.idea/*
-.idea/workspace.xml
-.gitignore
+/storage
+/node_modules
+/.idea
+/.gitignore
 
