@@ -22,6 +22,7 @@ class OpArticleList extends OpArticleBase
             'tour_article.least_num',
             'tour_article.most_num',
             'tour_article.join_num',
+            'tour_article.status',
             'tour_leader.name as leader_name',
         ];
         $joins = [
@@ -97,7 +98,7 @@ class OpArticleList extends OpArticleBase
             }
         }
 
-        $where['tour_article.status'] = 1;
+        $where['tour_article.status <>'] = -1;
         $orderBy['tour_article.start_time'] = 'desc';
         $orderBy['tour_article.end_time'] = 'desc';
         $orderBy['tour_article.id'] = 'desc';
