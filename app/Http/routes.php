@@ -101,6 +101,10 @@ Route::group([
 ], function () {
     //收集列表
     Route::match(['get', 'post'],'/list', 'OpCollectionList@index');
+    //批量删除
+    Route::match(['get', 'post'],'/del', 'OpCollectionDel@index');
+    //生成excel
+    Route::match(['get', 'post'],'/excel', 'OpCollectionExcel@index');
 });
 
 
