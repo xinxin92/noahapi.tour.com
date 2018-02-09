@@ -45,6 +45,14 @@ Route::group([
     //文章列表
     Route::match(['get', 'post'],'/list', 'TourArticleList@index');
 });
+//收集模块
+Route::group([
+    'prefix' => 'tour/collection',
+    'namespace' => 'TourCollection',
+], function () {
+    //收集列表
+    Route::match(['get', 'post'],'/add', 'TourCollectionAdd@index');
+});
 
 
 //OP接口：
