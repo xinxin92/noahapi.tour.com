@@ -45,7 +45,7 @@ Route::group([
     //文章列表
     Route::match(['get', 'post'],'/list', 'TourArticleList@index');
 });
-//收集模块
+//活动收集模块
 Route::group([
     'prefix' => 'tour/collection',
     'namespace' => 'TourCollection',
@@ -64,7 +64,6 @@ Route::group([
     //上传图片
     Route::match(['get', 'post'],'/uploadImg', 'OpCommonUploadImg@index');
 });
-
 //文章模块
 Route::group([
     'prefix' => 'op/article',
@@ -79,7 +78,6 @@ Route::group([
     //文章编辑
     Route::match(['get', 'post'],'/edit', 'OpArticleEdit@index');
 });
-
 //领队模块
 Route::group([
     'prefix' => 'op/leader',
@@ -96,6 +94,15 @@ Route::group([
     //领队编辑
     Route::match(['get', 'post'],'/edit', 'OpLeaderEdit@index');
 });
+//活动收集模块
+Route::group([
+    'prefix' => 'op/collection',
+    'namespace' => 'OpCollection',
+], function () {
+    //收集列表
+    Route::match(['get', 'post'],'/list', 'OpCollectionList@index');
+});
+
 
 
 
