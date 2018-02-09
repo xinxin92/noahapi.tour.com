@@ -9,8 +9,6 @@ class OpCollectionDel extends BaseController
 {
     public function index()
     {
-        //测试备用
-        $this->request['ids'] =[2];
         if (empty($this->request['ids'])) {
             return ['code'=>-1, 'msg'=>'参数有误，缺少ids'];
         }
